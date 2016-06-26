@@ -1,3 +1,15 @@
 <resources>
-    <string name="app_name">BITS_APP</string>
+    <string name="app_name">Hochschule Ostwestfalen-Lippe</string>
+    <string name="user">Ubbo Eicke</string>
+    <string name="mail">ubboeicke@gmail.com</string>
+
+    <string name="indoornavi_string">Indoor-Navigation</string>
+    <string name="starred_string">test2</string>
+    <string name="sent_mail_string">test3</string>
+    <string name="draft_string">test4</string>
+    <string name="all_mail_string">test5</string>
+    <string name="trash_string">trash</string>
+    <string name="spam_string">trash2</string>
+    <string name="openDrawer">Draweropen</string>
+    <string name="closeDrawer">Drawerclose</string>
 </resources>

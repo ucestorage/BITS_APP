@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+
+        <item
+            android:id="@+id/start"
+            android:checked="false"
+            android:title="Startseite" />
+
+        <item
+            android:id="@+id/einstellungen"
+
+            android:title="Einstellungen" />
+
+
+
+</menu>
