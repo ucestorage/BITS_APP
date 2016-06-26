@@ -137,6 +137,9 @@ public class MainActivity extends AppCompatActivity {
         }
         if (id == R.id.einstellungen) {
             Toast.makeText(getApplicationContext(),"Einstellungen Selected",Toast.LENGTH_SHORT).show();
+            FragmentTransaction ftsettings = getSupportFragmentManager().beginTransaction();
+            ftsettings.replace(R.id.container, new Settings());
+            ftsettings.commit();
             return true;
         }
 
