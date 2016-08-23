@@ -55,6 +55,11 @@ public class MainActivity extends AppCompatActivity {
 
 
                     //Replacing the main content with fm_Indoor_navi Which is our Inbox View;
+                    case R.id.start:
+                        Toast.makeText(getApplicationContext(),"Willkommen!",Toast.LENGTH_SHORT).show();
+                        recreate();
+                        return true;
+
                     case R.id.indoornavi:
                         Toast.makeText(getApplicationContext(),"Indoor-Navigation wird geladen...",Toast.LENGTH_SHORT).show();
 
@@ -72,6 +77,9 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     case R.id.news:
                         Toast.makeText(getApplicationContext(),"News Ticker",Toast.LENGTH_SHORT).show();
+                        FragmentTransaction ftnews = getSupportFragmentManager().beginTransaction();
+                        ftnews.replace(R.id.container, new rss_feed());
+                        ftnews.commit();
 
                     case R.id.anmelden:
                         Toast.makeText(getApplicationContext(),"Anmelden",Toast.LENGTH_SHORT).show();
@@ -130,13 +138,9 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.start) {
-            Toast.makeText(getApplicationContext(),"Wird geladen...",Toast.LENGTH_SHORT).show();
-            recreate();
-            return true;
-        }
+
         if (id == R.id.einstellungen) {
-            Toast.makeText(getApplicationContext(),"Einstellungen Selected",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),"Einstellungen",Toast.LENGTH_SHORT).show();
             FragmentTransaction ftsettings = getSupportFragmentManager().beginTransaction();
             ftsettings.replace(R.id.container, new Settings());
             ftsettings.commit();
