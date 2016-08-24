@@ -4,10 +4,7 @@
 
 
 
-        <item
-            android:id="@+id/start"
-            android:checked="false"
-            android:title="Startseite" />
+
 
         <item
             android:id="@+id/einstellungen"
