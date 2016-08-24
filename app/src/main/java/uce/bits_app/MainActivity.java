@@ -32,9 +32,7 @@ public class MainActivity extends AppCompatActivity {
         //Initializing NavigationView
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
         //WebView
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.container, new WebViewFragment());
-        ft.commit();
+       WebViewFragment();
         //Setting Navigation View Item Selected Listener to handle the item click of the navigation menu
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 
@@ -57,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
                     //Replacing the main content with fm_Indoor_navi Which is our Inbox View;
                     case R.id.start:
                         Toast.makeText(getApplicationContext(),"Willkommen!",Toast.LENGTH_SHORT).show();
-                        recreate();
+                        WebViewFragment();
                         return true;
 
                     case R.id.indoornavi:
@@ -77,9 +75,7 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     case R.id.news:
                         Toast.makeText(getApplicationContext(),"News Ticker",Toast.LENGTH_SHORT).show();
-                        FragmentTransaction ftnews = getSupportFragmentManager().beginTransaction();
-                        ftnews.replace(R.id.container, new rss_feed());
-                        ftnews.commit();
+//                       RSSFragment();
 
                     case R.id.anmelden:
                         Toast.makeText(getApplicationContext(),"Anmelden",Toast.LENGTH_SHORT).show();
@@ -122,6 +118,17 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+    private void WebViewFragment () {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.container, new WebViewFragment());
+        transaction.commit();
+
+    }
+  /*  private void RSSFragment () {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.container, new rss_feed());
+        transaction.commit();
+    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
