@@ -76,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.news:
                         Toast.makeText(getApplicationContext(),"News Ticker",Toast.LENGTH_SHORT).show();
                        RSSFragment();
+                        return true;
 
                     case R.id.anmelden:
                         Toast.makeText(getApplicationContext(),"Anmelden",Toast.LENGTH_SHORT).show();
