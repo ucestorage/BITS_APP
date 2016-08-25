@@ -24,12 +24,12 @@ public class rss_feed_fm extends Fragment implements AdapterView.OnItemClickList
     private ProgressBar progressBar;
     private ListView listView;
     private View view;
-
+/*
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
-    }
+    }*/
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
