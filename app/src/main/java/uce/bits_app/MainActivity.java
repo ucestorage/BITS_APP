@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     case R.id.news:
                         Toast.makeText(getApplicationContext(),"News Ticker",Toast.LENGTH_SHORT).show();
-//                       RSSFragment();
+                       RSSFragment();
 
                     case R.id.anmelden:
                         Toast.makeText(getApplicationContext(),"Anmelden",Toast.LENGTH_SHORT).show();
@@ -124,11 +124,11 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
 
     }
-  /*  private void RSSFragment () {
+    private void RSSFragment () {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.container, new rss_feed());
+        transaction.replace(R.id.container, new rss_feed_fm());
         transaction.commit();
-    }*/
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
