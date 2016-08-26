@@ -10,7 +10,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-public class Settings extends Fragment {
+public class fm_Settings extends Fragment {
 
 
     @Nullable
