@@ -1,6 +1,6 @@
 package uce.bits_app;
 
-import android.app.Activity;
+import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
@@ -72,6 +72,8 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     case R.id.stundenplan:
                         Toast.makeText(getApplicationContext(),"Stundenplan",Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(MainActivity.this, api_googlecalendar.class);
+                        startActivity(intent);
                         return true;
                     case R.id.news:
                         Toast.makeText(getApplicationContext(),"News Ticker",Toast.LENGTH_SHORT).show();
@@ -121,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
     }
     private void WebViewFragment () {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.container, new WebViewFragment());
+        transaction.replace(R.id.container, new fm_WebView());
         transaction.commit();
 
     }
@@ -150,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.einstellungen) {
             Toast.makeText(getApplicationContext(),"Einstellungen",Toast.LENGTH_SHORT).show();
             FragmentTransaction ftsettings = getSupportFragmentManager().beginTransaction();
-            ftsettings.replace(R.id.container, new Settings());
+            ftsettings.replace(R.id.container, new fm_Settings());
             ftsettings.commit();
             return true;
         }

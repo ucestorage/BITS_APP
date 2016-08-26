@@ -10,7 +10,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-public class WebViewFragment extends Fragment {
+public class fm_WebView extends Fragment {
     private WebView mWebView;
 
     @Nullable
