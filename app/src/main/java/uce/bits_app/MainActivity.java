@@ -72,8 +72,7 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     case R.id.stundenplan:
                         Toast.makeText(getApplicationContext(),"Stundenplan",Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(MainActivity.this, api_googlecalendar.class);
-                        startActivity(intent);
+                        GoogleCalendarFragment();
                         return true;
                     case R.id.news:
                         Toast.makeText(getApplicationContext(),"News Ticker",Toast.LENGTH_SHORT).show();
@@ -132,6 +131,12 @@ public class MainActivity extends AppCompatActivity {
         transaction.replace(R.id.container, new rss_feed_fm());
         transaction.commit();
     }
+    private void GoogleCalendarFragment () {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.container, new fm_googlecalendar());
+        transaction.commit();
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
