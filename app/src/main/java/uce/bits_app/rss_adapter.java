@@ -13,8 +13,8 @@ import java.util.List;
  */
 public class rss_adapter extends BaseAdapter {
 
-    private final List<rss_Item> items;
-    private final Context context;
+    private  List<rss_Item> items;
+    private  Context context;
 
     public rss_adapter(Context context, List<rss_Item> items) {
         this.items = items;
@@ -53,5 +53,10 @@ public class rss_adapter extends BaseAdapter {
 
     static class ViewHolder {
         TextView itemTitle;
+    }
+     void reset()
+    {
+        items=null;
+        context=null;
     }
 }

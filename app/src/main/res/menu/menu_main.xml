@@ -9,7 +9,7 @@
         <item
             android:id="@+id/einstellungen"
 
-            android:title="Einstellungen" />
+            android:title="Chat_Channel" />
 
 
 

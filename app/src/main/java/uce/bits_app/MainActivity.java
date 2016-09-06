@@ -78,6 +78,10 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(),"News Ticker",Toast.LENGTH_SHORT).show();
                        RSSFragment();
                         return true;
+                    case R.id.chat:
+                        Toast.makeText(getApplicationContext(), "Chat", Toast.LENGTH_SHORT).show();
+                        chat();
+                        return true;
 
 
                     default:
@@ -138,6 +142,11 @@ public class MainActivity extends AppCompatActivity {
     private void GoogleCalendarFragment () {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.container, new fm_googlecalendar());
+        transaction.commit();
+    }
+    private void chat() {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.container, new chat());
         transaction.commit();
     }
 

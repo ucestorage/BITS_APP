@@ -10,8 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
@@ -24,6 +27,10 @@ public class rss_feed_fm extends Fragment implements AdapterView.OnItemClickList
     private ProgressBar progressBar;
     private ListView listView;
     private View view;
+    private TextView stext;
+    private rss_adapter adapter;
+
+    private static String rss_source="";
 /*
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -31,14 +38,56 @@ public class rss_feed_fm extends Fragment implements AdapterView.OnItemClickList
         setRetainInstance(true);
     }*/
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (view == null) {
+
             view = inflater.inflate(R.layout.rss_fm, container, false);
             progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+            stext = (TextView) view.findViewById(R.id.stext);
             listView = (ListView) view.findViewById(R.id.listView);
             listView.setOnItemClickListener(this);
-            startService();
+            progressBar.setVisibility(View.GONE);
+
+            //Nikrandt Spinner für Fachbereich
+
+            Spinner spinner = (Spinner) view.findViewById(R.id.spinner);
+
+            final ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(view.getContext(),
+                    R.array.fachbereiche, android.R.layout.simple_spinner_item);
+
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(adapter);
+            spinner.setSelection(0, false);
+            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+
+                    if(parentView.getSelectedItem().toString().equals("HS-OWL"))
+                    {
+                        rss_service.RSS_LINK="https://www.hs-owl.de/hsowl.rss";
+                    }
+                    if(parentView.getSelectedItem().toString().equals("Fachbereich 8"))
+                    {
+                        rss_service.RSS_LINK="https://www.hs-owl.de/fb8/fb8.rss";
+                    }
+                    stext.setVisibility(View.GONE);
+                    stopService();
+                    startService();
+
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parentView) {
+                    // your code here
+                }
+
+            });
+
+            // Nikrandt ende
+
+
         } else {
             // If we are returning from a configuration change:
             // "view" is still attached to the previous view hierarchy
@@ -54,23 +103,29 @@ public class rss_feed_fm extends Fragment implements AdapterView.OnItemClickList
         intent.putExtra(rss_service.RECEIVER, resultReceiver);
         getActivity().startService(intent);
     }
+    private void stopService(){
+        Intent intent = new Intent(getActivity(), rss_service.class);
+        intent.putExtra(rss_service.RECEIVER, resultReceiver);
+        getActivity().stopService(intent);
+
+    }
 
     /**
      * Once the {@link rss_service} finishes its task, the result is sent to this ResultReceiver.
      */
-    private final ResultReceiver resultReceiver = new ResultReceiver(new Handler()) {
+    private ResultReceiver resultReceiver = new ResultReceiver(new Handler()) {
         @SuppressWarnings("unchecked")
         @Override
         protected void onReceiveResult(int resultCode, Bundle resultData) {
             List<rss_Item> items = (List<rss_Item>) resultData.getSerializable(rss_service.ITEMS);
             if (items != null) {
-                rss_adapter adapter = new rss_adapter(getActivity(), items);
+                adapter = new rss_adapter(getActivity(), items);
                 listView.setAdapter(adapter);
             } else {
                 Toast.makeText(getActivity(), "An error occured while downloading the rss feed.",
                         Toast.LENGTH_LONG).show();
             }
-            progressBar.setVisibility(View.GONE);
+            items.remove(0);
             listView.setVisibility(View.VISIBLE);
         };
     };
@@ -83,4 +138,11 @@ public class rss_feed_fm extends Fragment implements AdapterView.OnItemClickList
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         startActivity(intent);
     }
+    //Nikrandt
+    public static String source()
+    {
+        return rss_source;
+    }
+
+
 }

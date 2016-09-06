@@ -5,4 +5,5 @@ package uce.bits_app;
  */
 public class rss_constants {
     public static final String TAG = "RssApp";
+
 }

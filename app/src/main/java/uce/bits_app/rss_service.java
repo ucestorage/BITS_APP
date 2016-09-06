@@ -3,7 +3,6 @@ package uce.bits_app;
 import android.app.IntentService;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.SyncStateContract;
 import android.support.v4.os.ResultReceiver;
 import android.util.Log;
 
@@ -20,7 +19,7 @@ import java.util.List;
  */
 public class rss_service extends IntentService {
 
-    private static final String RSS_LINK = "https://www.hs-owl.de/hsowl.rss";
+    public static String RSS_LINK = "";
     public static final String ITEMS = "items";
     public static final String RECEIVER = "receiver";
 
@@ -30,7 +29,7 @@ public class rss_service extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        Log.d(rss_constants.TAG, "Service started");
+        Log.d(rss_constants.TAG, "Service started "+RSS_LINK );
         List<rss_Item> rssItems = null;
         try {
             rss_parser parser = new rss_parser();

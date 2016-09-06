@@ -26,6 +26,10 @@
             android:id="@+id/news"
 
             android:title="News Ticker" />
+        <item
+            android:id="@+id/chat"
+
+            android:title="Chat" />
 
 
 

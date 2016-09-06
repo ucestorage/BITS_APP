@@ -6,4 +6,15 @@
     <string name="indoornavi_string">Indoor-Navigation</string>
     <string name="openDrawer">Draweropen</string>
     <string name="closeDrawer">Drawerclose</string>
+
+    <string-array name="fachbereiche">
+        <item>Hier den RSS auswählen</item>
+        <item>HS-OWL</item>
+        <item>Fachbereich 8</item>
+    </string-array>
+    <string-array name="channel">
+        <item>Hier den RSS auswählen</item>
+        <item>HS-OWL</item>
+        <item>Fachbereich 8</item>
+    </string-array>
 </resources>
