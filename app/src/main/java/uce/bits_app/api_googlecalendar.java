@@ -61,7 +61,7 @@ public class api_googlecalendar extends Activity
     static final int REQUEST_GOOGLE_PLAY_SERVICES = 1002;
     static final int REQUEST_PERMISSION_GET_ACCOUNTS = 1003;
 
-    private static final String BUTTON_TEXT = "Call Google Calendar API";
+    private static final String BUTTON_TEXT = "Nächste 10 Termine abrufen";
     private static final String PREF_ACCOUNT_NAME = "accountName";
     private static final String[] SCOPES = { CalendarScopes.CALENDAR_READONLY };
 
@@ -103,7 +103,7 @@ public class api_googlecalendar extends Activity
         mOutputText.setVerticalScrollBarEnabled(true);
         mOutputText.setMovementMethod(new ScrollingMovementMethod());
         mOutputText.setText(
-                "Click the \'" + BUTTON_TEXT +"\' button to test the API.");
+                "");
         activityLayout.addView(mOutputText);
 
         mProgress = new ProgressDialog(this);
@@ -392,7 +392,7 @@ public class api_googlecalendar extends Activity
             if (output == null || output.size() == 0) {
                 mOutputText.setText("No results returned.");
             } else {
-                output.add(0, "Data retrieved using the Google Calendar API:");
+                output.add(0, "Deine nächsten 10 Termine:");
                 mOutputText.setText(TextUtils.join("\n", output));
             }
         }

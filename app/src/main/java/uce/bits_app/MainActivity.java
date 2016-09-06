@@ -67,22 +67,19 @@ public class MainActivity extends AppCompatActivity {
                     // For rest of the options we just show a toast on click
 
                     case R.id.raumplan:
-                        Toast.makeText(getApplicationContext(),"Raumplan",Toast.LENGTH_SHORT).show();
-
+                        Toast.makeText(getApplicationContext(),"Ausfälle und Verschiebungen werden geladen...",Toast.LENGTH_SHORT).show();
+                        WebViewFragment2();
                         return true;
                     case R.id.stundenplan:
-                        Toast.makeText(getApplicationContext(),"Stundenplan",Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(MainActivity.this, api_googlecalendar.class);
-                        startActivity(intent);
+                        Toast.makeText(getApplicationContext(),"Die nächsten 10 Termine werden geladen...",Toast.LENGTH_SHORT).show();
+                        GoogleCalendarFragment();
                         return true;
                     case R.id.news:
                         Toast.makeText(getApplicationContext(),"News Ticker",Toast.LENGTH_SHORT).show();
                        RSSFragment();
                         return true;
 
-                    case R.id.anmelden:
-                        Toast.makeText(getApplicationContext(),"Anmelden",Toast.LENGTH_SHORT).show();
-                        return true;
+
                     default:
                         Toast.makeText(getApplicationContext(),"Hallo!",Toast.LENGTH_SHORT).show();
                         return true;
@@ -127,11 +124,23 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
 
     }
+    private void WebViewFragment2 () {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.container, new fm_verschiebungen());
+        transaction.commit();
+
+    }
     private void RSSFragment () {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.container, new rss_feed_fm());
         transaction.commit();
     }
+    private void GoogleCalendarFragment () {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.container, new fm_googlecalendar());
+        transaction.commit();
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
