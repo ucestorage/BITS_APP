@@ -2,13 +2,40 @@ apply plugin: 'com.android.application'
 
 android {
     signingConfigs {
-        config {
-            keyAlias 'MyAndroidKeyHome'
-            keyPassword 'redsniper1#'
-            storeFile file('C:/Users/Ubbo Eicke/.android/keystores/android.jks')
-            storePassword 'refl0tron#'
+        release
+    }
+    buildTypes {
+        debug {
+            debuggable true
+        }
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
+    if (project.hasProperty("AndroidProject.signing")
+            && new File(project.property("AndroidProject.signing").toString()).exists()) {
+        def Properties props = new Properties()
+        def propFile = new File(project.property("AndroidProject.signing").toString())
+        if(propFile.canRead()) {
+            props.load(new FileInputStream(propFile))
+            if (props!=null && props.containsKey('STORE_FILE') && props.containsKey('STORE_PASSWORD') &&
+                    props.containsKey('KEY_ALIAS') && props.containsKey('KEY_PASSWORD')) {
+                android.signingConfigs.release.storeFile = file(props['STORE_FILE'])
+                android.signingConfigs.release.storePassword = props['STORE_PASSWORD']
+                android.signingConfigs.release.keyAlias = props['KEY_ALIAS']
+                android.signingConfigs.release.keyPassword = props['KEY_PASSWORD']
+            } else {
+                println 'androidproject.properties found but some entries are missing'
+                android.buildTypes.release.signingConfig = null
+            }
+        } else {
+            println 'androidproject.properties file not found'
+            android.buildTypes.release.signingConfig = null
+        }
+    }
+
     compileSdkVersion 23
     buildToolsVersion "23.0.3"
     defaultConfig {
@@ -18,24 +45,26 @@ android {
         versionCode 1
         versionName "1.0"
     }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.config
-        }
-        debug {
-            signingConfig signingConfigs.config
-        }
-    }
+
 }
 
 dependencies {
+
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.4.0'
     compile 'com.android.support:design:23.4.0'
     compile 'com.google.android.gms:play-services-auth:9.0.2'
+
+
+/*
+    compile 'com.google.android.gms:play-services:6.5.87'
+    compile 'com.google.apis:google-api-services-calendar:v3-rev119-1.19.1'
+    compile 'com.google.api-client:google-api-client:1.19.1'
+    compile 'com.google.api-client:google-api-client-android:1.19.1'
+    compile 'com.google.api-client:google-api-client-gson:1.19.1'
+*/
+
     compile 'pub.devrel:easypermissions:0.1.5'
     compile('com.google.api-client:google-api-client-android:1.22.0') {
         exclude group: 'org.apache.httpcomponents'

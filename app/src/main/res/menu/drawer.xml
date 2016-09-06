@@ -16,7 +16,7 @@
         <item
             android:id="@+id/raumplan"
 
-            android:title="Raumplan" />
+            android:title="Ausfälle/Verschiebungen" />
 
         <item
             android:id="@+id/stundenplan"
@@ -27,10 +27,7 @@
 
             android:title="News Ticker" />
 
-        <item
-            android:id="@+id/anmelden"
 
-            android:title="Anmelden" />
 
     </group>
 </menu>
