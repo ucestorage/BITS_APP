@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
                         {
                             c1.end();
                         }
-                        Toast.makeText(getApplicationContext(),"Indoor-Navigation wird geladen...",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(),"Zu implementieren...",Toast.LENGTH_SHORT).show();
 
 
                         return true;
@@ -95,12 +95,20 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(),"Ausfälle und Verschiebungen werden geladen...",Toast.LENGTH_SHORT).show();
                         WebViewFragment2();
                         return true;
+                    case R.id.anleitung:
+                        if(c1!=null)
+                        {
+                            c1.end();
+                        }
+                        //  Toast.makeText(getApplicationContext(),"",Toast.LENGTH_SHORT).show();
+                        AnleitungStundenplanFragment();
+                        return true;
                     case R.id.stundenplan:
                         if(c1!=null)
                         {
                             c1.end();
                         }
-                        Toast.makeText(getApplicationContext(),"Die nächsten 10 Termine werden geladen...",Toast.LENGTH_SHORT).show();
+                      //  Toast.makeText(getApplicationContext(),"",Toast.LENGTH_SHORT).show();
                         GoogleCalendarFragment();
                         return true;
                     case R.id.news:
@@ -177,6 +185,12 @@ public class MainActivity extends AppCompatActivity {
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.container, new rss_feed_fm());
+        transaction.commit();
+    }
+    private void AnleitungStundenplanFragment () {
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.container, new fm_anleitungstundenplan());
         transaction.commit();
     }
     private void GoogleCalendarFragment () {
