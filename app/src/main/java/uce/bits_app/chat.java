@@ -1,4 +1,4 @@
-package uce.bits_app;
+﻿package uce.bits_app;
 
 import android.app.Activity;
 import android.content.Context;
@@ -157,24 +157,24 @@ public class chat extends Fragment {
                 String text="";
                 if(sender.equals(name))
                 {
-                    chatfenster.setGravity(Gravity.RIGHT);
+                    text="<p align=\"right\">";
                 }
                 else
                 {
-                    chatfenster.setGravity(Gravity.LEFT);
+                    text="<p align=\"left\">";
                 }
+
                 if(i==1)
                 {
-                    text = "<font color='#00008b'>"+sender + ": " + nachricht+"</font>";
+                    text += "<br /><font color='#00008b'>"+sender + ": " + nachricht+"</font>";
                 }
                 else
                 {
-                    text = "<font color='#660000'>"+sender + ": " + nachricht+"</font>";
+                    text += "<br /><font color='#660000'>"+sender + ": " + nachricht+"</font>";
                 }
-
+                text +="</p>";
 
                 chatfenster.append(Html.fromHtml((text)));
-                chatfenster.append(System.getProperty("line.separator"));
                 chatfenster.append(System.getProperty("line.separator"));
 
             }
@@ -202,7 +202,7 @@ public class chat extends Fragment {
 
                     String buffer=input.getText().toString();
 
-                    if (buffer !=null)
+                    if (buffer !="")
                     {
                         out.println("nachricht " + name + " " + buffer);
                         out.flush();

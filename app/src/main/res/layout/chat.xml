@@ -45,14 +45,17 @@
         android:id="@+id/channelanzeige"
         android:textSize="22sp"
         />
+
     <TextView
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:text=""
         android:id="@+id/chatfenster"
         android:layout_gravity="center_horizontal"
         android:layout_below="@id/channelanzeige"
         android:layout_above="@id/insertbox"
         android:textSize="16sp"
+        android:gravity="bottom"
         />
+
 </RelativeLayout>
