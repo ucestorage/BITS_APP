@@ -13,6 +13,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.text.Html;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -154,6 +155,14 @@ public class chat extends Fragment {
             public void run() {
                 i=-i;
                 String text="";
+                if(sender.equals(name))
+                {
+                    chatfenster.setGravity(Gravity.RIGHT);
+                }
+                else
+                {
+                    chatfenster.setGravity(Gravity.LEFT);
+                }
                 if(i==1)
                 {
                     text = "<font color='#00008b'>"+sender + ": " + nachricht+"</font>";
