@@ -20,7 +20,7 @@ import android.widget.Toast;
 import java.util.List;
 
 /**
- * Created by Ubbo on 25.08.2016.
+ * Created by Ubbo on 25.08.2016. Editiert von Dennis am 5.9
  */
 public class rss_feed_fm extends Fragment implements AdapterView.OnItemClickListener {
 
@@ -45,17 +45,26 @@ public class rss_feed_fm extends Fragment implements AdapterView.OnItemClickList
 
             view = inflater.inflate(R.layout.rss_fm, container, false);
             progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-            stext = (TextView) view.findViewById(R.id.stext);
             listView = (ListView) view.findViewById(R.id.listView);
             listView.setOnItemClickListener(this);
             progressBar.setVisibility(View.GONE);
+            //Setze den Standart RSS fürs erste Laden auf Hochschullevel
+            rss_service.RSS_LINK="https://www.hs-owl.de/hsowl.rss";
+            startService();
 
             //Nikrandt Spinner für Fachbereich
+            /*
+            Zunächst habe ich in der XML einen Spinner deklariert, dann eine Liste mit optionen
+            unter strings.xml erzeugt. Danach wird ein Adapter erstellt, dieser füllt die Liste in
+            den Spinner. Im Anschluss habe ich ein Multi If erschaffen welches je nach ausgewähltem
+            Punkt den neuen RSS Feed auswählt. Danach wird der RSS Service beendet und neugestartet
+            und die Liste zu aktualisieren ohne die Activity neu zu laden.
+             */
 
             Spinner spinner = (Spinner) view.findViewById(R.id.spinner);
 
-            final ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(view.getContext(),
-                    R.array.fachbereiche, android.R.layout.simple_spinner_item);
+            final ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource
+                    (view.getContext(), R.array.fachbereiche, android.R.layout.simple_spinner_item);
 
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinner.setAdapter(adapter);
@@ -72,7 +81,6 @@ public class rss_feed_fm extends Fragment implements AdapterView.OnItemClickList
                     {
                         rss_service.RSS_LINK="https://www.hs-owl.de/fb8/fb8.rss";
                     }
-                    stext.setVisibility(View.GONE);
                     stopService();
                     startService();
 
@@ -80,7 +88,7 @@ public class rss_feed_fm extends Fragment implements AdapterView.OnItemClickList
 
                 @Override
                 public void onNothingSelected(AdapterView<?> parentView) {
-                    // your code here
+
                 }
 
             });
@@ -125,7 +133,7 @@ public class rss_feed_fm extends Fragment implements AdapterView.OnItemClickList
                 Toast.makeText(getActivity(), "An error occured while downloading the rss feed.",
                         Toast.LENGTH_LONG).show();
             }
-            items.remove(0);
+            items.remove(0);    //Der erste RSS eintrag war immer doppelt, dies entfernt eine Kopie!
             listView.setVisibility(View.VISIBLE);
         };
     };
@@ -137,11 +145,6 @@ public class rss_feed_fm extends Fragment implements AdapterView.OnItemClickList
         Uri uri = Uri.parse(item.getLink());
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         startActivity(intent);
-    }
-    //Nikrandt
-    public static String source()
-    {
-        return rss_source;
     }
 
 

@@ -14,19 +14,13 @@
         style="@android:style/Widget.Spinner.DropDown"
         android:entries="@array/fachbereiche"
         />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_below="@+id/spinner"
-        android:id="@+id/stext"
-        android:text="Bitte RSS Feed auswählen"/>
 
     <ListView
         android:visibility="gone"
         android:id="@+id/listView"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_below="@+id/stext"/>
+        android:layout_below="@+id/spinner"/>
 
 
 

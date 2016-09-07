@@ -3,38 +3,56 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:text=""
-        android:id="@+id/textView"
-        android:layout_gravity="center_horizontal"
-    />
-
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:id="@+id/insert"
-        android:layout_weight="0.1">
+        android:id="@+id/insertbox"
+        android:layout_weight="0.2"
+        >
 
 
         <EditText
-            android:layout_width="wrap_content"
+            android:layout_width="60dp"
             android:layout_weight="0.8"
-            android:layout_height="fill_parent"
+            android:layout_height="100dp"
             android:id="@+id/chat"
-            />
-
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:inputType="textMultiLine"
+            android:scrollHorizontally="false"
+            android:layout_alignParentBottom="true"
+            >
+            <requestFocus/>
+        </EditText>
 
         <Button
             style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
+            android:layout_width="20dp"
             android:layout_weight="0.2"
             android:layout_height="fill_parent"
             android:text="Senden"
-            android:id="@+id/sbutton" />
-    </LinearLayout>
+            android:id="@+id/sbutton"
+            android:layout_alignParentBottom="true"/>
 
+    </LinearLayout>
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:textAlignment="center"
+        android:text=""
+        android:id="@+id/channelanzeige"
+        android:textSize="22sp"
+        />
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:id="@+id/chatfenster"
+        android:layout_gravity="center_horizontal"
+        android:layout_below="@id/channelanzeige"
+        android:layout_above="@id/insertbox"
+        android:textSize="16sp"
+        />
 </RelativeLayout>

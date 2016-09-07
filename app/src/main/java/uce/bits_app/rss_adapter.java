@@ -54,9 +54,4 @@ public class rss_adapter extends BaseAdapter {
     static class ViewHolder {
         TextView itemTitle;
     }
-     void reset()
-    {
-        items=null;
-        context=null;
-    }
 }

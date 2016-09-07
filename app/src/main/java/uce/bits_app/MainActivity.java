@@ -1,7 +1,10 @@
 package uce.bits_app;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -11,7 +14,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
+
+import java.io.IOException;
+import java.net.Socket;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
+    private  chat c1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,14 +60,26 @@ public class MainActivity extends AppCompatActivity {
                 //Check to see which item was being clicked and perform appropriate action
                 switch (menuItem.getItemId()){
 
-
+                    //Nikrandt
+                    /*
+                    Jedes Menu Item guckt ob ein chat gestartet war, wenn ja sendet es den
+                    Verbindungsabbruch befehl um multible Verbindungen zu verbieten.
+                     */
                     //Replacing the main content with fm_Indoor_navi Which is our Inbox View;
                     case R.id.start:
+                        if(c1!=null)
+                        {
+                            c1.end();
+                        }
                         Toast.makeText(getApplicationContext(),"Willkommen!",Toast.LENGTH_SHORT).show();
                         WebViewFragment();
                         return true;
 
                     case R.id.indoornavi:
+                        if(c1!=null)
+                        {
+                            c1.end();
+                        }
                         Toast.makeText(getApplicationContext(),"Indoor-Navigation wird geladen...",Toast.LENGTH_SHORT).show();
 
 
@@ -67,18 +88,34 @@ public class MainActivity extends AppCompatActivity {
                     // For rest of the options we just show a toast on click
 
                     case R.id.raumplan:
+                        if(c1!=null)
+                        {
+                            c1.end();
+                        }
                         Toast.makeText(getApplicationContext(),"Ausfälle und Verschiebungen werden geladen...",Toast.LENGTH_SHORT).show();
                         WebViewFragment2();
                         return true;
                     case R.id.stundenplan:
+                        if(c1!=null)
+                        {
+                            c1.end();
+                        }
                         Toast.makeText(getApplicationContext(),"Die nächsten 10 Termine werden geladen...",Toast.LENGTH_SHORT).show();
                         GoogleCalendarFragment();
                         return true;
                     case R.id.news:
                         Toast.makeText(getApplicationContext(),"News Ticker",Toast.LENGTH_SHORT).show();
                        RSSFragment();
+                        if(c1!=null)
+                        {
+                            c1.end();
+                        }
                         return true;
                     case R.id.chat:
+                        if(c1!=null)
+                        {
+                            c1.end();
+                        }
                         Toast.makeText(getApplicationContext(), "Chat", Toast.LENGTH_SHORT).show();
                         chat();
                         return true;
@@ -123,32 +160,39 @@ public class MainActivity extends AppCompatActivity {
 
     }
     private void WebViewFragment () {
+
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.container, new fm_WebView());
         transaction.commit();
 
     }
     private void WebViewFragment2 () {
+
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.container, new fm_verschiebungen());
         transaction.commit();
 
     }
     private void RSSFragment () {
+
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.container, new rss_feed_fm());
         transaction.commit();
     }
     private void GoogleCalendarFragment () {
+
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.container, new fm_googlecalendar());
         transaction.commit();
     }
     private void chat() {
+
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.container, new chat());
+        c1=new chat(); //Neuen Chat als instanz speicher um später ende() aufzurufen
+        transaction.replace(R.id.container, c1);
         transaction.commit();
     }
+
 
 
     @Override
