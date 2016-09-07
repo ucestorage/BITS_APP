@@ -10,7 +10,10 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-public class fm_verschiebungen extends Fragment {
+/**
+ * Created by Ubbo Eicke on 07.09.2016.
+ */
+public class fm_anleitungstundenplan extends Fragment {
     private WebView mWebView;
 
     @Nullable
@@ -18,7 +21,7 @@ public class fm_verschiebungen extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v=inflater.inflate(R.layout.webviewfm, container, false);
         mWebView = (WebView) v.findViewById(R.id.WVFragment);
-        mWebView.loadUrl("http://medivhus.ddns.net/hs/app.php");
+        mWebView.loadUrl("http://medivhus.ddns.net/hs/tutorial.php");
 
         // Enable Javascript
         WebSettings webSettings = mWebView.getSettings();

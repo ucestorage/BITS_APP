@@ -13,11 +13,11 @@ import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecovera
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.util.DateTime;
 import com.google.api.client.util.ExponentialBackOff;
 
-import com.google.api.services.calendar.CalendarScopes;
-import com.google.api.client.util.DateTime;
 
+import com.google.api.services.calendar.CalendarScopes;
 import com.google.api.services.calendar.model.*;
 
 import android.Manifest;
@@ -35,6 +35,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -42,9 +43,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.Calendar;
 
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
@@ -61,7 +63,7 @@ public class api_googlecalendar extends Activity
     static final int REQUEST_GOOGLE_PLAY_SERVICES = 1002;
     static final int REQUEST_PERMISSION_GET_ACCOUNTS = 1003;
 
-    private static final String BUTTON_TEXT = "Nächste 10 Termine abrufen";
+    private static final String BUTTON_TEXT = "Die nächsten 10 Termine abrufen";
     private static final String PREF_ACCOUNT_NAME = "accountName";
     private static final String[] SCOPES = { CalendarScopes.CALENDAR_READONLY };
 
@@ -102,12 +104,11 @@ public class api_googlecalendar extends Activity
         mOutputText.setPadding(16, 16, 16, 16);
         mOutputText.setVerticalScrollBarEnabled(true);
         mOutputText.setMovementMethod(new ScrollingMovementMethod());
-        mOutputText.setText(
-                "");
+        mOutputText.setTextSize(20);
         activityLayout.addView(mOutputText);
 
         mProgress = new ProgressDialog(this);
-        mProgress.setMessage("Calling Google Calendar API ...");
+        mProgress.setMessage("Lade...");
 
         setContentView(activityLayout);
 
@@ -330,8 +331,10 @@ public class api_googlecalendar extends Activity
             JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
             mService = new com.google.api.services.calendar.Calendar.Builder(
                     transport, jsonFactory, credential)
-                    .setApplicationName("Google Calendar API Android Quickstart")
+                    .setApplicationName("Termin-Abfrage")
                     .build();
+
+
         }
 
         /**
@@ -348,35 +351,50 @@ public class api_googlecalendar extends Activity
                 return null;
             }
         }
-
         /**
          * Fetch a list of the next 10 events from the primary calendar.
          * @return List of Strings describing returned events.
          * @throws IOException
          */
         private List<String> getDataFromApi() throws IOException {
-            // List the next 10 events from the primary calendar.
-            DateTime now = new DateTime(System.currentTimeMillis());
-            List<String> eventStrings = new ArrayList<String>();
-            Events events = mService.events().list("primary")
-                    .setMaxResults(10)
-                    .setTimeMin(now)
-                    .setOrderBy("startTime")
-                    .setSingleEvents(true)
-                    .execute();
-            List<Event> items = events.getItems();
+            List<String> eventsout = new ArrayList<String>();
+                CalendarList calendarList = mService.calendarList().list().execute();
+                List<CalendarListEntry> items = calendarList.getItems();
+                for (CalendarListEntry calendarListEntry : items) {
+                   if (calendarListEntry.getSummary().contains("Stundenplan HS-OWL")){
 
-            for (Event event : items) {
-                DateTime start = event.getStart().getDateTime();
-                if (start == null) {
-                    // All-day events don't have start times, so just use
-                    // the start date.
-                    start = event.getStart().getDate();
+                      String callist = calendarListEntry.getId();
+
+                       DateTime now = new DateTime(new Date());
+                        Events events = mService.events().list(callist)
+                                .setMaxResults(10)
+                                .setTimeMin(now)
+                                .setOrderBy("startTime")
+                                .setSingleEvents(true)
+                                .execute();
+                        List<Event> itemsevent = events.getItems();
+                        for (Event event : itemsevent) {
+
+                            DateTime start = event.getStart().getDateTime();
+                            if (start == null) {
+                                // All-day events don't have start times, so just use
+                                // the start date.
+                                start = event.getStart().getDate();
+                            }
+                            DateTime ende = event.getStart().getDateTime();
+                            if (ende == null) {
+                                // All-day events don't have start times, so just use
+                                // the start date.
+                                ende = event.getStart().getDate();
+                            }
+                            String location = event.getLocation();
+                            eventsout.add(
+                                    String.format("Name: %s %nRaum: %s%nStart: (%s) %nEnde:(%s)%n%n", event.getSummary(),location, start, ende));
+                        }
+                       Log.d("uce.bits_app","test");
+                    }
                 }
-                eventStrings.add(
-                        String.format("%s (%s)", event.getSummary(), start));
-            }
-            return eventStrings;
+            return eventsout;
         }
 
 
@@ -390,9 +408,9 @@ public class api_googlecalendar extends Activity
         protected void onPostExecute(List<String> output) {
             mProgress.hide();
             if (output == null || output.size() == 0) {
-                mOutputText.setText("No results returned.");
+                mOutputText.setText("Keine Ergebnisse.");
             } else {
-                output.add(0, "Deine nächsten 10 Termine:");
+                output.add(0, "");
                 mOutputText.setText(TextUtils.join("\n", output));
             }
         }
@@ -410,11 +428,11 @@ public class api_googlecalendar extends Activity
                             ((UserRecoverableAuthIOException) mLastError).getIntent(),
                             api_googlecalendar.REQUEST_AUTHORIZATION);
                 } else {
-                    mOutputText.setText("The following error occurred:\n"
+                    mOutputText.setText("Ein Fehler ist passiert\n"
                             + mLastError.getMessage());
                 }
             } else {
-                mOutputText.setText("Request cancelled.");
+                mOutputText.setText("Anfrage abgebrochen.");
             }
         }
     }

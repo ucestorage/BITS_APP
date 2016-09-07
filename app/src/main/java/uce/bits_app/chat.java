@@ -293,7 +293,7 @@ public class chat extends Fragment {
         protected Void doInBackground(Void... params) {
             //Verbinde Socket und dann starte die Client Logik
                 try {
-                    socket = new Socket("10.0.2.2", 1038);
+                    socket = new Socket("medivhus.ddns.net", 1038);
                     try {
                         start();
                     } catch (IOException e) {
