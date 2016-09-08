@@ -13,6 +13,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
+//        singingkey private halten
     }
     if (project.hasProperty("AndroidProject.signing")
             && new File(project.property("AndroidProject.signing").toString()).exists()) {
@@ -49,21 +50,12 @@ android {
 }
 
 dependencies {
-
+//Abhänigkeiten mit kompilieren
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.4.0'
     compile 'com.android.support:design:23.4.0'
     compile 'com.google.android.gms:play-services-auth:9.0.2'
-
-
-/*
-    compile 'com.google.android.gms:play-services:6.5.87'
-    compile 'com.google.apis:google-api-services-calendar:v3-rev119-1.19.1'
-    compile 'com.google.api-client:google-api-client:1.19.1'
-    compile 'com.google.api-client:google-api-client-android:1.19.1'
-    compile 'com.google.api-client:google-api-client-gson:1.19.1'
-*/
 
     compile 'pub.devrel:easypermissions:0.1.5'
     compile('com.google.api-client:google-api-client-android:1.22.0') {
