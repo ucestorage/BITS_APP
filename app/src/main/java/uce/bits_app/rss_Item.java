@@ -2,6 +2,7 @@ package uce.bits_app;
 
 /**
  * Created by Ubbo on 25.08.2016.
+ * Link und Titel des Rss-Eintrages werden abgefragt und gespeichert
  */
 
 public class rss_Item {

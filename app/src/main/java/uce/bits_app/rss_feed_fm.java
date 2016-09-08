@@ -31,13 +31,6 @@ public class rss_feed_fm extends Fragment implements AdapterView.OnItemClickList
     private rss_adapter adapter;
 
     private static String rss_source="";
-/*
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setRetainInstance(true);
-    }*/
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -105,12 +98,13 @@ public class rss_feed_fm extends Fragment implements AdapterView.OnItemClickList
         }
         return view;
     }
-
+    //Rss-Service wird gestartet
     private void startService() {
         Intent intent = new Intent(getActivity(), rss_service.class);
         intent.putExtra(rss_service.RECEIVER, resultReceiver);
         getActivity().startService(intent);
     }
+    //Rss-Service wird gestoppt
     private void stopService(){
         Intent intent = new Intent(getActivity(), rss_service.class);
         intent.putExtra(rss_service.RECEIVER, resultReceiver);
@@ -118,9 +112,8 @@ public class rss_feed_fm extends Fragment implements AdapterView.OnItemClickList
 
     }
 
-    /**
-     * Once the {@link rss_service} finishes its task, the result is sent to this ResultReceiver.
-     */
+    //Sobald der RSS_Service die Items abgefragt hat
+    // werden die Ergebnisse an diesen ResultReceiver übergeben und angezeigt
     private ResultReceiver resultReceiver = new ResultReceiver(new Handler()) {
         @SuppressWarnings("unchecked")
         @Override
@@ -130,14 +123,15 @@ public class rss_feed_fm extends Fragment implements AdapterView.OnItemClickList
                 adapter = new rss_adapter(getActivity(), items);
                 listView.setAdapter(adapter);
             } else {
-                Toast.makeText(getActivity(), "An error occured while downloading the rss feed.",
+                Toast.makeText(getActivity(), "Oops! Da ist etwas schiefgelaufen.",
                         Toast.LENGTH_LONG).show();
             }
             items.remove(0);    //Der erste RSS eintrag war immer doppelt, dies entfernt eine Kopie!
             listView.setVisibility(View.VISIBLE);
-        };
+        }
     };
-
+    //Wenn eines der RSS-Items geklickt wird,
+    // wird man direkt zu dem Artikel auf der entsprechenden Seite weitergeleitet
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         rss_adapter adapter = (rss_adapter) parent.getAdapter();

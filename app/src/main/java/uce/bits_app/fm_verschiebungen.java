@@ -20,11 +20,11 @@ public class fm_verschiebungen extends Fragment {
         mWebView = (WebView) v.findViewById(R.id.WVFragment);
         mWebView.loadUrl("http://medivhus.ddns.net/hs/app.php");
 
-        // Enable Javascript
+
         WebSettings webSettings = mWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
 
-        // Force links and redirects to open in the WebView instead of in a browser
+
         mWebView.setWebViewClient(new WebViewClient());
 
         return v;

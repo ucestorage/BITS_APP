@@ -29,7 +29,7 @@ public class rss_service extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        Log.d(rss_constants.TAG, "Service started "+RSS_LINK );
+        //neuen rss parser erstellen der den InputStream der website parst
         List<rss_Item> rssItems = null;
         try {
             rss_parser parser = new rss_parser();
@@ -44,13 +44,12 @@ public class rss_service extends IntentService {
         ResultReceiver receiver = intent.getParcelableExtra(RECEIVER);
         receiver.send(0, bundle);
     }
-
+    //Input stream von der angegebenen Website holen
     public InputStream getInputStream(String link) {
         try {
             URL url = new URL(link);
             return url.openConnection().getInputStream();
         } catch (IOException e) {
-            Log.w(rss_constants.TAG, "Exception while retrieving the input stream", e);
             return null;
         }
     }

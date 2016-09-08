@@ -12,6 +12,7 @@ import android.webkit.WebViewClient;
 
 /**
  * Created by Ubbo Eicke on 07.09.2016.
+ * Eine WebView die die Setup-Seite anzeigt.
  */
 public class fm_anleitungstundenplan extends Fragment {
     private WebView mWebView;
@@ -21,13 +22,15 @@ public class fm_anleitungstundenplan extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v=inflater.inflate(R.layout.webviewfm, container, false);
         mWebView = (WebView) v.findViewById(R.id.WVFragment);
+        // URl zuzweisen
         mWebView.loadUrl("http://medivhus.ddns.net/hs/tutorial.php");
 
-        // Enable Javascript
+        // JavaScript erlauben
         WebSettings webSettings = mWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
 
-        // Force links and redirects to open in the WebView instead of in a browser
+        // den WebView zwingen sich wirklich in einem WebView
+        // innerhalb des Fragments und nicht im Browser zu öffnen
         mWebView.setWebViewClient(new WebViewClient());
 
         return v;

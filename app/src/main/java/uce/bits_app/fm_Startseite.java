@@ -10,7 +10,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-public class fm_WebView extends Fragment {
+public class fm_Startseite extends Fragment {
     private WebView mWebView;
 
     @Nullable
@@ -20,11 +20,11 @@ public class fm_WebView extends Fragment {
         mWebView = (WebView) v.findViewById(R.id.WVFragment);
         mWebView.loadUrl("https://www.hs-owl.de");
 
-        // Enable Javascript
+
         WebSettings webSettings = mWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
 
-        // Force links and redirects to open in the WebView instead of in a browser
+
         mWebView.setWebViewClient(new WebViewClient());
 
         return v;

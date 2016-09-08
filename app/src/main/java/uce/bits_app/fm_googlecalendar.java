@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 
 /**
  * Created by Ubbo Eicke on 26.08.2016.
+ * Fragment welches die Google Calendar Activity startet
  */
 public class fm_googlecalendar extends Fragment {
 
