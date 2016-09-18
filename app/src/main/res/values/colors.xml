@@ -3,4 +3,7 @@
     <color name="colorPrimary">#dc131d</color>
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#dc131d</color>
+    <color name="chat1">#660000</color>
+    <color name="chat2">#00008b</color>
+    <color name="chat3">#ffffff</color>
 </resources>

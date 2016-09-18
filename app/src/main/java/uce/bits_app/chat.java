@@ -1,17 +1,25 @@
-﻿package uce.bits_app;
+package uce.bits_app;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.Space;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.text.Html;
+import android.text.Layout;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.style.AlignmentSpan;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -19,9 +27,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
+
+import com.google.android.gms.actions.ItemListIntents;
+
+import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -29,6 +46,8 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.lang.ref.WeakReference;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Dennis Nikrandt on 9/6/2016.
@@ -43,6 +62,7 @@ import java.net.Socket;
  */
 public class chat extends Fragment {
     private static Button send;
+    private static Button list;
     private static  View vi;
     private static String name;
     private WeakReference<MyAsyncTask> asyncTaskWeakRef;
@@ -51,7 +71,9 @@ public class chat extends Fragment {
     private static Activity act;
     private static int i=1;
     private static EditText input ;
-
+    private static TextView old;
+    private static int chatid=0;
+    private static   LinearLayout layout;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -96,7 +118,7 @@ public class chat extends Fragment {
 
 
         act=getActivity();
-        chatfenster = (TextView) vi.findViewById(R.id.chatfenster);
+        layout = (LinearLayout) vi.findViewById(R.id.chatfenster);
         channel = (TextView) vi.findViewById(R.id.channelanzeige);
 
         channel.setText(  Html.fromHtml("<b><u>"+mPrefs.getString("channel", "HS-OWL") +"</u></b>") );
@@ -153,30 +175,60 @@ public class chat extends Fragment {
         act.runOnUiThread(new Runnable() {
             @Override
             public void run() {
+
+
+
                 i=-i;
-                String text="";
+                String text="<br />";
+                text+=sender + ": " + nachricht+"";
+                RelativeLayout rel = new RelativeLayout(act.getApplicationContext());
+                TextView textview=new TextView(act.getApplicationContext());
+                textview.setTextSize(17);
+                RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,RelativeLayout.LayoutParams.WRAP_CONTENT);
+                params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT,1);
+                textview.setLayoutParams(params);
+                rel.setLayoutParams(params);
+                textview.setId(chatid);
                 if(sender.equals(name))
                 {
-                    text="<p align=\"right\">";
+                    textview.setGravity(Gravity.RIGHT);
+                    if(i==1)
+                    {
+                        textview.setBackgroundResource(R.drawable.rounded_corner2);
+                    }
+                    else
+                    {
+                        textview.setBackgroundResource(R.drawable.rounded_corner);
+                    }
                 }
                 else
                 {
-                    text="<p align=\"left\">";
-                }
+                    textview.setGravity(Gravity.LEFT);
+                    if(i==1)
+                    {
+                        textview.setBackgroundResource(R.drawable.rounded_corner2);
+                    }
+                    else
+                    {
+                        textview.setBackgroundResource(R.drawable.rounded_corner);
+                    }
 
-                if(i==1)
-                {
-                    text += "<br /><font color='#00008b'>"+sender + ": " + nachricht+"</font>";
                 }
-                else
-                {
-                    text += "<br /><font color='#660000'>"+sender + ": " + nachricht+"</font>";
-                }
-                text +="</p>";
+                textview.append(Html.fromHtml((text)));
+                textview.append(Html.fromHtml(("<br />")));
 
-                chatfenster.append(Html.fromHtml((text)));
-                chatfenster.append(System.getProperty("line.separator"));
+                rel.addView(textview);
+                layout.addView(rel,chatid);
 
+                    final ScrollView scroll = (ScrollView) vi.findViewById(R.id.chatscroll);
+                scroll.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        scroll.fullScroll(View.FOCUS_DOWN);
+                    }
+                });
+
+                chatid=chatid+1;
             }
         });
 
@@ -190,6 +242,7 @@ public class chat extends Fragment {
 
         try {
             send = (Button) vi.findViewById(R.id.sbutton);
+            list = (Button) vi.findViewById(R.id.list);
 
 
             out = new PrintWriter(socket.getOutputStream());
@@ -202,7 +255,7 @@ public class chat extends Fragment {
 
                     String buffer=input.getText().toString();
 
-                    if (buffer !="")
+                    if (buffer.trim() !="")
                     {
                         out.println("nachricht " + name + " " + buffer);
                         out.flush();
@@ -214,6 +267,17 @@ public class chat extends Fragment {
                         });
                     }
                 }
+            });
+            list.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //Wenn der Listen Button gedrückt sende dem Server eine Listen Request
+
+                    out.println("liste " + name );
+                    out.flush();
+
+                    }
+
             });
 
             if (socket.isConnected()) {
@@ -254,6 +318,42 @@ public class chat extends Fragment {
                                     final String nachricht = nbuffer[2];
 
                                  text(sender,nachricht);
+
+                                }
+                                if (lineb.startsWith("liste")) {
+                                    //Wenn die vom Server erhaltene Nachricht mit liste anfängt
+                                    //Teile sie und schreibe sie in das extra Fenster
+
+                                    String nbuffer[] = lineb.split("\\s+",100);
+                                    String message="";
+                                    int z=1;
+                                    do {
+                                        if(nbuffer[z]!=null)
+                                        {
+                                            message+=nbuffer[z]+"\n";
+                                        }
+
+                                        z=z+1;
+                                    }while(z<nbuffer.length);
+                                    final String message2=message;
+                                    act.runOnUiThread(new Runnable() {
+                                        public void run() {
+                                            AlertDialog.Builder builder = new AlertDialog.Builder(act);
+                                            builder.setTitle("Dies sind alle Leute in deinem Channel:")
+                                                    .setMessage(message2)
+                                                    .setCancelable(false)
+                                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                        public void onClick(DialogInterface dialog, int id) {
+
+                                                        }
+                                                    });
+                                            AlertDialog alert = builder.create();
+                                            alert.show();
+
+                                        }
+                                    });
+
+
 
                                 }
 
@@ -302,7 +402,7 @@ public class chat extends Fragment {
         protected Void doInBackground(Void... params) {
             //Verbinde Socket und dann starte die Client Logik
                 try {
-                    socket = new Socket("medivhus.ddns.net", 1038);
+                    socket = new Socket("medivhus.ddns.net", 1037);
                     try {
                         start();
                     } catch (IOException e) {
