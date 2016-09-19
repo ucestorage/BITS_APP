@@ -27,26 +27,43 @@
             <requestFocus/>
         </EditText>
 
-        <Button
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="20dp"
-            android:layout_weight="0.2"
-            android:layout_height="fill_parent"
-            android:text="Senden"
-            android:id="@+id/sbutton"
-            android:layout_alignParentBottom="true"/>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Chatterliste"
+                android:id="@+id/list"
+                android:layout_weight="0.2"
+                android:layout_above="@+id/insertbox"
+                android:layout_alignParentEnd="true" />
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="fill_parent"
+                android:layout_weight="0.2"
+                android:layout_height="wrap_content"
+                android:text="Senden"
+                android:id="@+id/sbutton"
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="center_horizontal" />
+
+        </LinearLayout>
 
     </LinearLayout>
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="50dp"
         android:textAlignment="center"
-        android:text=""
         android:id="@+id/channelanzeige"
         android:textSize="22sp"
         />
 
-    <TextView
+   <!-- <TextView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:text=""
@@ -55,7 +72,24 @@
         android:layout_below="@id/channelanzeige"
         android:layout_above="@id/insertbox"
         android:textSize="16sp"
-        android:gravity="bottom"
-        />
+
+        /> -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/channelanzeige"
+        android:layout_above="@id/insertbox"
+        android:id="@+id/chatscroll"
+        android:scrollbars="none"
+        android:focusable="false">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/chatfenster"
+        android:gravity="bottom">
+    </LinearLayout>
+    </ScrollView>
+
 
 </RelativeLayout>
