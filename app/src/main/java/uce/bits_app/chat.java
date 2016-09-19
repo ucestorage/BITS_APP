@@ -1,12 +1,14 @@
-package uce.bits_app;
+﻿package uce.bits_app;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceScreen;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -20,7 +22,9 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.style.AlignmentSpan;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -71,7 +75,6 @@ public class chat extends Fragment {
     private static Activity act;
     private static int i=1;
     private static EditText input ;
-    private static TextView old;
     private static int chatid=0;
     private static   LinearLayout layout;
     @Nullable
@@ -86,7 +89,7 @@ public class chat extends Fragment {
         String username = mPrefs.getString("username", "");
         final uce.bits_app.chat app = this;
         final SharedPreferences.Editor mEditor = mPrefs.edit();
-        //Zunächst cleare und dann requeste ich den Focus für das Textfeld Input.
+        //Zunächst clear und dann requeste ich den Focus für das Textfeld Input.
         //Danach erzeuge ich einen Focus Change Listener welcher die Soft Tastatur anzeigen
         //oder ausblenden kann.
         input.clearFocus();
@@ -184,14 +187,19 @@ public class chat extends Fragment {
                 RelativeLayout rel = new RelativeLayout(act.getApplicationContext());
                 TextView textview=new TextView(act.getApplicationContext());
                 textview.setTextSize(17);
+                textview.setTextColor(Color.parseColor("#131313"));
                 RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,RelativeLayout.LayoutParams.WRAP_CONTENT);
                 params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT,1);
+
+                RelativeLayout.LayoutParams params2=params;
+                params2.setMargins(5,5,5,0);
+                rel.setLayoutParams(params2);
+                textview.setWidth(layout.getWidth()/2);
                 textview.setLayoutParams(params);
-                rel.setLayoutParams(params);
                 textview.setId(chatid);
                 if(sender.equals(name))
                 {
-                    textview.setGravity(Gravity.RIGHT);
+                    rel.setGravity(Gravity.RIGHT);
                     if(i==1)
                     {
                         textview.setBackgroundResource(R.drawable.rounded_corner2);
@@ -203,7 +211,7 @@ public class chat extends Fragment {
                 }
                 else
                 {
-                    textview.setGravity(Gravity.LEFT);
+                    rel.setGravity(Gravity.LEFT);
                     if(i==1)
                     {
                         textview.setBackgroundResource(R.drawable.rounded_corner2);
@@ -402,7 +410,7 @@ public class chat extends Fragment {
         protected Void doInBackground(Void... params) {
             //Verbinde Socket und dann starte die Client Logik
                 try {
-                    socket = new Socket("medivhus.ddns.net", 1037);
+                    socket = new Socket("medivhus.ddns.net", 1038);
                     try {
                         start();
                     } catch (IOException e) {
