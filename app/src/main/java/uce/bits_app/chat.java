@@ -1,4 +1,4 @@
-﻿package uce.bits_app;
+package uce.bits_app;
 
 import android.app.Activity;
 import android.content.Context;
@@ -226,7 +226,7 @@ public class chat extends Fragment {
                 textview.append(Html.fromHtml(("<br />")));
 
                 rel.addView(textview);
-                layout.addView(rel,chatid);
+                layout.addView(rel);
 
                     final ScrollView scroll = (ScrollView) vi.findViewById(R.id.chatscroll);
                 scroll.post(new Runnable() {
