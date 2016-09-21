@@ -3,40 +3,24 @@ apply plugin: 'com.android.application'
 android {
     signingConfigs {
         release
+        config {
+            keyAlias 'release'
+            keyPassword 'test1234'
+            storeFile file('C:/Users/Ubbo Eicke/Documents/GitHub/BITS_APP/keystore/releasekey.jks')
+            storePassword 'test12345'
+        }
     }
     buildTypes {
         debug {
             debuggable true
         }
         release {
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
-        }
-//        singingkey private halten
-    }
-    if (project.hasProperty("AndroidProject.signing")
-            && new File(project.property("AndroidProject.signing").toString()).exists()) {
-        def Properties props = new Properties()
-        def propFile = new File(project.property("AndroidProject.signing").toString())
-        if(propFile.canRead()) {
-            props.load(new FileInputStream(propFile))
-            if (props!=null && props.containsKey('STORE_FILE') && props.containsKey('STORE_PASSWORD') &&
-                    props.containsKey('KEY_ALIAS') && props.containsKey('KEY_PASSWORD')) {
-                android.signingConfigs.release.storeFile = file(props['STORE_FILE'])
-                android.signingConfigs.release.storePassword = props['STORE_PASSWORD']
-                android.signingConfigs.release.keyAlias = props['KEY_ALIAS']
-                android.signingConfigs.release.keyPassword = props['KEY_PASSWORD']
-            } else {
-                println 'androidproject.properties found but some entries are missing'
-                android.buildTypes.release.signingConfig = null
-            }
-        } else {
-            println 'androidproject.properties file not found'
-            android.buildTypes.release.signingConfig = null
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'),
+                    'proguard-rules.pro'
+            signingConfig signingConfigs.config
         }
     }
-
     compileSdkVersion 23
     buildToolsVersion "23.0.3"
     defaultConfig {
@@ -45,18 +29,19 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+        signingConfig signingConfigs.release
     }
-
+    productFlavors {
+    }
 }
 
 dependencies {
-//Abhänigkeiten mit kompilieren
+    //Abhänigkeiten mit kompilieren
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.4.0'
     compile 'com.android.support:design:23.4.0'
     compile 'com.google.android.gms:play-services-auth:9.0.2'
-
     compile 'pub.devrel:easypermissions:0.1.5'
     compile('com.google.api-client:google-api-client-android:1.22.0') {
         exclude group: 'org.apache.httpcomponents'
